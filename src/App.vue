@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ElButton } from 'element-plus'
-import HelloWorld from '@/components/HelloWorld.vue'
 </script>
 <template>
   <div>
     <el-button type="danger">按钮</el-button>
-    <HelloWorld msg="hello" />
+    <HelloWorld msg="tell me" />
   </div>
 </template>
 
