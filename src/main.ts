@@ -4,6 +4,7 @@ import 'element-plus/dist/index.css'
 import App from '@/App.vue'
 // @ts-ignore
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+console.log(import.meta.env)
 
 createApp(App)
   .use(ElementPlus, {
