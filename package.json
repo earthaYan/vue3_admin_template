@@ -54,6 +54,8 @@
     "stylelint-order": "^6.0.3",
     "stylelint-scss": "^5.3.1",
     "typescript": "^5.2.2",
+    "unplugin-auto-import": "^0.17.1",
+    "unplugin-vue-components": "^0.25.2",
     "vite": "^5.0.0",
     "vue-tsc": "^1.8.22"
   }
