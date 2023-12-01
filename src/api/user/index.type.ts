@@ -1,11 +1,12 @@
-export interface loginParams {
+export interface UserLoginParams {
   username: string
   password: string
 }
-interface dataType {
-  token: string
+interface UserLoginResponseData {
+  token?: string
+  message?: string
 }
-export interface loginResponse {
+export interface UserLoginResponse {
   code: number
-  data: dataType
+  data: UserLoginResponseData
 }

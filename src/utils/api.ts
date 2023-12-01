@@ -11,7 +11,7 @@ instance.interceptors.response.use(
   (response) => {
     // 成功的回调
     // 简化数据
-    return response.data
+    return Promise.resolve(response.data)
   },
   (error) => {
     // 失败的回调
