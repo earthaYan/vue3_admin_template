@@ -14,11 +14,17 @@
               type="password"
               :prefix-icon="Lock"
               v-model="loginForm.password"
-              show-password="true"
+              show-password
             />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" class="login_btn" size="default">
+            <el-button
+              type="primary"
+              class="login_btn"
+              size="default"
+              @click="handleLogin"
+              :loading="loading"
+            >
               登录
             </el-button>
           </el-form-item>
@@ -29,11 +35,36 @@
 </template>
 <script setup lang="ts">
 import { Lock, User } from '@element-plus/icons-vue'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import useUserStore from '@/store/modules/user'
+import { useRouter } from 'vue-router'
+import { ElNotification } from 'element-plus'
+
+let userStore = useUserStore()
+let $router = useRouter()
 const loginForm = reactive({
   username: '',
   password: '',
 })
+const loading = ref(false)
+const handleLogin = async () => {
+  try {
+    loading.value = true
+    await userStore.handleUserLogin(loginForm)
+    ElNotification({
+      type: 'success',
+      message: '登陆成功',
+    })
+    $router.push('/')
+  } catch (error) {
+    ElNotification({
+      type: 'error',
+      message: '登陆失败',
+    })
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 <style lang="scss" scoped>
 #login_wrapper {
