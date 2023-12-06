@@ -51,6 +51,8 @@ import {
   ElInput,
   ElButton,
   FormInstance,
+  ElRow,
+  ElCol,
 } from 'element-plus'
 import { getTimePeriod } from '@/utils/time'
 import { UserLoginParams } from '@/api/user/index.type'
@@ -58,14 +60,15 @@ import { UserLoginParams } from '@/api/user/index.type'
 let userStore = useUserStore()
 let $router = useRouter()
 const loginForm = reactive({
-  username: '',
-  password: '',
+  username: 'admin',
+  password: 'atguigu123',
 })
 const loading = ref(false)
+
 const loginFormRules = reactive<FormRules<UserLoginParams>>({
   username: [
     { required: true, message: '用户名不能为空', trigger: 'change' },
-    { min: 6, max: 10, message: '用户名长度必须在6-10之间', trigger: 'change' },
+    { min: 5, max: 10, message: '用户名长度必须在6-10之间', trigger: 'change' },
   ],
   password: [
     { required: true, message: '密码不能为空', trigger: 'change' },
@@ -88,7 +91,7 @@ const handleLogin = async () => {
   } catch (error) {
     ElNotification({
       type: 'error',
-      message: '登陆失败',
+      message: error as string,
     })
   } finally {
     loading.value = false

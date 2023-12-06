@@ -1,12 +1,10 @@
+import { GenericResponse } from '../common'
+
 export interface UserLoginParams {
   username: string
   password: string
 }
-interface UserLoginResponseData {
-  token?: string
-  message?: string
+export interface UserLoginResponse extends GenericResponse {
+  data: string
 }
-export interface UserLoginResponse {
-  code: number
-  data: UserLoginResponseData
-}
+export interface GetUserInfoParams {}

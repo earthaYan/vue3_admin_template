@@ -17,11 +17,11 @@ const useUserStore = defineStore('user', {
     async handleUserLogin(data: UserLoginParams) {
       let result = await userLogin(data)
       if (result.code === 200) {
-        this.token = result.data.token
-        setLocalStorageItem(TOKEN, result.data.token ?? '')
+        this.token = result.data
+        setLocalStorageItem(TOKEN, result.data ?? '')
         return Promise.resolve()
       } else {
-        return Promise.reject(new Error(result.data.message))
+        return Promise.reject(result.data)
       }
     },
   },
