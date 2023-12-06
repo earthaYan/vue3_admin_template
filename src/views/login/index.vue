@@ -1,15 +1,20 @@
 <template>
   <div id="login_wrapper">
     <el-row>
-      <el-col :span="12" :xs="0">占位文字</el-col>
+      <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
-        <el-form class="login_form">
+        <el-form
+          class="login_form"
+          :model="loginForm"
+          :rules="loginFormRules"
+          ref="loginFormRef"
+        >
           <h1 class="title">Hello</h1>
           <h2 class="sub_title">欢迎来到硅谷甄选</h2>
-          <el-form-item>
+          <el-form-item prop="username">
             <el-input :prefix-icon="User" v-model="loginForm.username" />
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input
               type="password"
               :prefix-icon="Lock"
@@ -38,8 +43,17 @@ import { Lock, User } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import useUserStore from '@/store/modules/users'
 import { useRouter } from 'vue-router'
-import { ElNotification } from 'element-plus'
+import {
+  ElNotification,
+  FormRules,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElButton,
+  FormInstance,
+} from 'element-plus'
 import { getTimePeriod } from '@/utils/time'
+import { UserLoginParams } from '@/api/user/index.type'
 
 let userStore = useUserStore()
 let $router = useRouter()
@@ -48,8 +62,21 @@ const loginForm = reactive({
   password: '',
 })
 const loading = ref(false)
+const loginFormRules = reactive<FormRules<UserLoginParams>>({
+  username: [
+    { required: true, message: '用户名不能为空', trigger: 'change' },
+    { min: 6, max: 10, message: '用户名长度必须在6-10之间', trigger: 'change' },
+  ],
+  password: [
+    { required: true, message: '密码不能为空', trigger: 'change' },
+    { min: 6, max: 15, message: '密码的长度至少6位', trigger: 'change' },
+  ],
+})
+const loginFormRef = ref<FormInstance>()
 const handleLogin = async () => {
   try {
+    // 保证表单项校验通过再发请求
+    await loginFormRef.value?.validate()
     loading.value = true
     await userStore.handleUserLogin(loginForm)
     ElNotification({
@@ -74,6 +101,7 @@ const handleLogin = async () => {
   height: 100vh;
   background: url('@/assets/images/background.jpg') no-repeat;
   background-size: cover;
+
   .login_form {
     width: 80%;
     position: relative;
@@ -81,15 +109,18 @@ const handleLogin = async () => {
     background: url('@/assets/images/login_form.png') no-repeat;
     background-size: cover;
     padding: 40px;
+
     .title {
       color: $white;
       font-size: 40px;
     }
+
     .sub_title {
       color: $white;
       font-size: 20px;
       margin: 20px 0;
     }
+
     .login_btn {
       width: 100%;
     }
