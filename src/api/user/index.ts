@@ -1,5 +1,9 @@
 import instance from '@/utils/api'
-import { GetUserInfoParams, UserLoginParams, UserLoginResponse } from './index.type'
+import {
+  GetUserInfoParams,
+  UserLoginParams,
+  UserLoginResponse,
+} from './index.type'
 //统一管理接口
 enum API {
   LOGIN_URL = '/admin/acl/index/login',
